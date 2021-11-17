@@ -21,7 +21,7 @@ const babel = require('gulp-babel');
 
 // Optimise Images
 function imageMin(cb) {
-    gulp.src("src/assets/images/*")
+    gulp.src("src/assets/images/**/*")
         .pipe(imagemin())
         .pipe(gulp.dest("dist/images"));
     cb();
@@ -29,13 +29,13 @@ function imageMin(cb) {
 
 // Copy all HTML files to Dist
 function copyHTML(cb) {
-    gulp.src("src/*.html").pipe(gulp.dest("dist"));
+    gulp.src(['src/pages/*.html', '!src/pages/_*.html']).pipe(gulp.dest("dist"));
     cb();
 }
 
 // Minify HTML
 function minifyHTML(cb) {
-    gulp.src("src/*.html")
+    gulp.src(['src/pages/*.html', '!src/pages/_*.html'])
         .pipe(gulp.dest("dist"))
         .pipe(
             htmlmin({
@@ -74,7 +74,7 @@ function css(cb) {
 
 // Process Nunjucks
 function nunjucks(cb) {
-    gulp.src("src/pages/*.html")
+    gulp.src(['src/pages/*.html', '!src/pages/_*.html'])
         .pipe(
             nunjucksRender({
                 path: ["src/templates/"] // String or Array
@@ -85,7 +85,7 @@ function nunjucks(cb) {
 }
 
 function nunjucksMinify(cb) {
-    gulp.src("src/pages/*.html")
+    gulp.src(['src/pages/*.html', '!src/pages/_*.html'])
         .pipe(
             nunjucksRender({
                 path: ["src/templates/"] // String or Array
@@ -108,6 +108,7 @@ function watch_files() {
         }
     });
     gulp.watch("src/assets/sass/**/*.scss", css);
+    gulp.watch("src/assets/images/**/*.[png,ico]", imageMin);
     gulp.watch("src/assets/js/*.js", js).on("change", browserSync.reload);
     gulp.watch("src/pages/*.html", nunjucks).on("change", browserSync.reload);
     gulp.watch("src/templates/*.html", nunjucks).on(

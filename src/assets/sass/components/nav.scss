@@ -2,13 +2,13 @@
 # Nav
 *------------------*/
 
-nav {
+.navi-m {
     background: #333;
-    border-bottom-right-radius: 5px;
-    left: 0;
+    border-radius: 5px;
+    right: 5%;
     padding: 1rem;
     position: absolute;
-    top: 0;
+    bottom: 5%;
 
     ul {
         list-style-type: none;
